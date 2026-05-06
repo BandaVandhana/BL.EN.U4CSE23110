@@ -28,9 +28,9 @@ export default function PriorityInboxPage() {
   useEffect(() => {
     log("frontend", "info", "page", "Priority Inbox page loaded");
 
-    fetchNotifications(1, 50).then((data) => {
+    fetchNotifications(1, 10).then((data) => {
       const sorted = sortByPriority(data);
-      setNotifications(sorted.slice(0, 10));
+      setNotifications(sorted);
       setLoading(false);
     });
   }, []);

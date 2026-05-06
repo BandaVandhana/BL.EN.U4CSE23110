@@ -1,7 +1,7 @@
 import axios from "axios";
 import { log } from "@/utils/logger";
 
-const BASE_URL = "http://20.207.122.201/evaluation-service";
+const BASE_URL = "/evaluation-service";
 
 export interface Notification {
   ID: string;
@@ -27,9 +27,15 @@ export async function fetchNotifications(
 
     log("frontend", "info", "api", `Fetching notifications - page: ${page}, limit: ${limit}, type: ${type || "All"}`);
 
+    const token = process.env.NEXT_PUBLIC_AUTH_TOKEN;
+    const headers: Record<string, string> = {};
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     const res = await axios.get<NotificationResponse>(
       `${BASE_URL}/notifications`,
-      { params }
+      { params, headers }
     );
 
     log("frontend", "info", "api", `Fetched ${res.data.notifications.length} notifications`);
